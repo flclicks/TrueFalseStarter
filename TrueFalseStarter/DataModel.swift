@@ -37,7 +37,7 @@ let questionSet: [[String: String]] =
      "4": "1954",
      "CorrectAns": "3"],
     
-    ["Question": "The Titanic departed from the United Kingdom, where was it supposed to a]rrive?",
+    ["Question": "The Titanic departed from the United Kingdom, where was it supposed to arrive?",
      "1": "Paris",
      "2": "Washington D.C.",
      "3": "New York City",

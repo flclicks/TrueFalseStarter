@@ -15,9 +15,11 @@ class ViewController: UIViewController {
     let questionsPerRound = 10
     var questionsAsked = 0
     var correctQuestions = 0
-    var indexOfSelectedQuestion: Int = 0
-    
+    var indexOfSelectedQuestion = Int()
+    var secondIndex = Int()
+    var previouslyAskedQuestions = [Int]()
     var gameSound: SystemSoundID = 0
+    
     
     
     @IBOutlet weak var questionField: UILabel!
@@ -42,8 +44,27 @@ class ViewController: UIViewController {
     }
     
     func displayQuestion() {
+        
         indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextIntWithUpperBound(setOfQuestions.arrayOfQuestions.count)
+
+
+    
+        for askedQuestion in previouslyAskedQuestions
+        {
+            
+            if indexOfSelectedQuestion == askedQuestion {
+               
+                nextRound()
+
+            
+            }
+            
+            
+        }
+        previouslyAskedQuestions.append(indexOfSelectedQuestion)
+        
         let questionDictionary = setOfQuestions.arrayOfQuestions[indexOfSelectedQuestion]
+        
         questionField.text = questionDictionary["Question"]
         
         option1.setTitle(questionDictionary["1"], forState: UIControlState.Normal)
@@ -52,7 +73,12 @@ class ViewController: UIViewController {
         option4.setTitle(questionDictionary["4"], forState: UIControlState.Normal)
         
         playAgainButton.hidden = true
-    }
+
+        
+        }
+    
+    
+    
     
     func displayScore() {
         // Hide the answer buttons
@@ -90,13 +116,24 @@ class ViewController: UIViewController {
     }
     
     func nextRound() {
-        if questionsAsked == questionsPerRound {
+        
+
+        if questionsAsked != questionsPerRound
+        {
+            
+            // Continue game
+            
+
+            displayQuestion()
+            
+
+            
+        } else         {
+            
             // Game is over
             displayScore()
-        } else {
-            // Continue game
-            displayQuestion()
-        }
+
+                   }
     }
     
     @IBAction func playAgain() {
@@ -136,5 +173,6 @@ class ViewController: UIViewController {
     func playGameStartSound() {
         AudioServicesPlaySystemSound(gameSound)
     }
-}
+    
+   }
 
