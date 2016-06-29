@@ -22,6 +22,8 @@ class ViewController: UIViewController {
     var incorrectAnswerSound: SystemSoundID = 0
     var questionlabel :String = ""
     var result :String = ""
+    var senderButton: String = ""
+    var correctAnswerText: String = ""
 
     
     
@@ -116,13 +118,51 @@ class ViewController: UIViewController {
             questionField.text = "\(questionlabel)" + "\(result)"
             loadCorrectResponseSound()
             playCorrectResponseSound()
+            senderButton = correctAnswer!
+            switch senderButton {
+            
+            case "1": option1.enabled = true
+            option2.enabled = false
+            option3.enabled = false
+            option4.enabled = false
+                
+            case "2": option1.enabled = false
+            option2.enabled = true
+            option3.enabled = false
+            option4.enabled = false
+                
+            case "3": option1.enabled = false
+            option2.enabled = false
+            option3.enabled = true
+            option4.enabled = false
+                
+            case "4": option1.enabled = false
+            option2.enabled = false
+            option3.enabled = false
+            option4.enabled = true
+                
+            default: break
+            
+            }
+            
         } else
         {
             questionlabel = selectedQuestionDict["Question"]!
             result = "\n \n Sorry, wrong answer! \n"
-            questionField.text = "\(questionlabel)" + "\(result)"
+            senderButton = correctAnswer!
+            correctAnswerText = selectedQuestionDict[senderButton]!
+            questionField.text = "\(questionlabel)" + "\(result)" + "Correct Answer: \(correctAnswerText)"
             loadIncorrectResponseSound()
             playIncorrectResponseSound()
+            
+            option1.enabled = false
+            option2.enabled = false
+            option3.enabled = false
+            option4.enabled = false
+            sender.enabled = true
+            senderButton = correctAnswer!
+            correctAnswerText = selectedQuestionDict[senderButton]!
+            
         }
         
         loadNextRoundWithDelay(seconds: 2)
@@ -136,7 +176,12 @@ class ViewController: UIViewController {
             
             // Continue game
             
-
+            option1.enabled = true
+            option2.enabled = true
+            option3.enabled = true
+            option4.enabled = true
+            
+            
             displayQuestion()
             
 
