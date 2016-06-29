@@ -16,9 +16,13 @@ class ViewController: UIViewController {
     var questionsAsked = 0
     var correctQuestions = 0
     var indexOfSelectedQuestion = Int()
-    var secondIndex = Int()
     var previouslyAskedQuestions = [Int]()
     var gameSound: SystemSoundID = 0
+    var correctAnswerSound: SystemSoundID = 0
+    var incorrectAnswerSound: SystemSoundID = 0
+    var questionlabel :String = ""
+    var result :String = ""
+
     
     
     
@@ -107,9 +111,18 @@ class ViewController: UIViewController {
             (sender === option4 && correctAnswer == "4")
         {
             correctQuestions += 1
-            questionField.text = "Correct!"
-        } else {
-            questionField.text = "Sorry, wrong answer!"
+            questionlabel = selectedQuestionDict["Question"]!
+            result = "\n \n Correct! \n"
+            questionField.text = "\(questionlabel)" + "\(result)"
+            loadCorrectResponseSound()
+            playCorrectResponseSound()
+        } else
+        {
+            questionlabel = selectedQuestionDict["Question"]!
+            result = "\n \n Sorry, wrong answer! \n"
+            questionField.text = "\(questionlabel)" + "\(result)"
+            loadIncorrectResponseSound()
+            playIncorrectResponseSound()
         }
         
         loadNextRoundWithDelay(seconds: 2)
@@ -145,6 +158,7 @@ class ViewController: UIViewController {
         
         questionsAsked = 0
         correctQuestions = 0
+        previouslyAskedQuestions = []
         nextRound()
     }
     
@@ -169,9 +183,29 @@ class ViewController: UIViewController {
         let soundURL = NSURL(fileURLWithPath: pathToSoundFile!)
         AudioServicesCreateSystemSoundID(soundURL, &gameSound)
     }
+    func loadCorrectResponseSound() {
+        let pathToCorrectResponseSoundFile = NSBundle.mainBundle().pathForResource("CorrectAnswerSound", ofType: "wav")
+        let soundURL = NSURL(fileURLWithPath: pathToCorrectResponseSoundFile!)
+        AudioServicesCreateSystemSoundID(soundURL, &correctAnswerSound)
+    }
+
+    func loadIncorrectResponseSound() {
+        let pathToIncorrectResponseSoundFile = NSBundle.mainBundle().pathForResource("IncorrectAnswerSound", ofType: "mp3")
+        let soundURL = NSURL(fileURLWithPath: pathToIncorrectResponseSoundFile!)
+        AudioServicesCreateSystemSoundID(soundURL, &incorrectAnswerSound)
+    }
+
     
     func playGameStartSound() {
         AudioServicesPlaySystemSound(gameSound)
+    }
+    
+    func playCorrectResponseSound() {
+        AudioServicesPlaySystemSound(correctAnswerSound)
+    }
+    
+    func playIncorrectResponseSound() {
+        AudioServicesPlaySystemSound(incorrectAnswerSound)
     }
     
    }
