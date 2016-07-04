@@ -114,7 +114,7 @@ class ViewController: UIViewController {
         {
             correctQuestions += 1
             questionlabel = selectedQuestionDict["Question"]!
-            result = "\n \n Correct! \n"
+            result = "\n \n Correct! \n \n"
             questionField.text = "\(questionlabel)" + "\(result)"
             loadCorrectResponseSound()
             playCorrectResponseSound()
@@ -148,7 +148,7 @@ class ViewController: UIViewController {
         } else
         {
             questionlabel = selectedQuestionDict["Question"]!
-            result = "\n \n Sorry, wrong answer! \n"
+            result = "\n \n Sorry, wrong answer! \n \n"
             senderButton = correctAnswer!
             correctAnswerText = selectedQuestionDict[senderButton]!
             questionField.text = "\(questionlabel)" + "\(result)" + "Correct Answer: \(correctAnswerText)"
@@ -164,6 +164,11 @@ class ViewController: UIViewController {
             correctAnswerText = selectedQuestionDict[senderButton]!
             
         }
+        
+        option1.enabled = false
+        option2.enabled = false
+        option3.enabled = false
+        option4.enabled = false
         
         loadNextRoundWithDelay(seconds: 2)
     }
